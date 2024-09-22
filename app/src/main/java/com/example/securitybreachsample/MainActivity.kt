@@ -1,6 +1,5 @@
 package com.example.securitybreachsample
 
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -16,21 +15,24 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.securitybreachsample.jailbreak.AppDeviceSecurityCheck
 import com.example.securitybreachsample.ui.theme.SecuritybreachsampleTheme
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import java.security.NoSuchProviderException
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
         enableEdgeToEdge()
         setContent {
+            var selectedItem by remember { mutableStateOf(false) }
             SecuritybreachsampleTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(
@@ -43,14 +45,16 @@ class MainActivity : ComponentActivity() {
                     ) {
 
                         Button(onClick = {
-                            val data = AppDeviceSecurityCheck.instance.isInstalledFromPlayStore(context = this@MainActivity)
+//                            val data = AppDeviceSecurityCheck.instance.isInstalledFromPlayStore(context = this@MainActivity)
                             val data2 = AppDeviceSecurityCheck.instance.isAppSignatureValid(this@MainActivity)
 //                            Log.d("ahsdg", "${sigs.hashCode()}")
+                            selectedItem= data2
                             Log.d("ahsdg", "$data2")
+
                         }, modifier = Modifier) {
                             Text(text = "Check Status")
                         }
-
+                        Text(text = "$selectedItem")
                     }
                 }
             }

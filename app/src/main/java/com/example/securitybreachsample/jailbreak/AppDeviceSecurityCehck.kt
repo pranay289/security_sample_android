@@ -45,7 +45,7 @@ class AppDeviceSecurityCheck private constructor() : JailBreak {
 
     private val kernelQemuProperty = "ro.kernel.qemu"
     private val kernelQemuValue = "1"
-    private val SIGNATURE = "AC33A9FA30C00544E39B6B99B053B2C7981B01D"
+    private val SIGNATURE = "D5235DDDC04D46D7F5AFF2B967424490F1EB596F"
 
     override fun bytesToHex(bytes: ByteArray): String {
         val hexArray = charArrayOf(
@@ -111,10 +111,8 @@ class AppDeviceSecurityCheck private constructor() : JailBreak {
             @Suppress("DEPRECATION")
             infoData = context.packageManager.getInstallerPackageName(context.packageName)
         }
-        return infoData != null && infoData.startsWith(
-            playStoreAppId
-                ?: "https://play.google.com/store/apps/details?id=com.example.securitybreachsample&hl=en_IN"
-        )
+        return infoData != null && (infoData == (playStoreAppId
+            ?: "com.android.vending"))
     }
 
     companion object {
@@ -164,8 +162,8 @@ class AppDeviceSecurityCheck private constructor() : JailBreak {
             }
             val hashText = digest.digest()
             return bytesToHex(hashText)
-        }catch (e:Exception){
-            throw  e
+        } catch (e: Exception) {
+            throw e
         }
     }
 //    override fun isRooted(): Boolean {
